@@ -1,0 +1,27 @@
+<h3>Users</h3>
+
+<div *ngIf="isLoading">
+    <i class="fa fa-spinner fa-spin fa-3x"></i>
+</div>
+
+<a routerLink="/users/add" class="btn btn-primary">Add User</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td><span class="glyphicon glyphicon-edit"></span></td>
+            <td><span class="glyphicon glyphicon-remove"></span></td>
+        </tr>
+    </tbody>
+</table>

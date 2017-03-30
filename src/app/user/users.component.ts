@@ -1,11 +1,25 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+
+import {UsersService} from './users.service';
 
 @Component({
-    template: `
-        <h3>Users</h3>
-    `
+    templateUrl: 'app/user/users.template.html',
+    providers: [UsersService]
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
 
+    isLoading = true;
+    users: any;
+
+    constructor(private usersService: UsersService) {
+    }
+
+    ngOnInit() {
+        this.usersService.getUsers()
+            .subscribe(users => {
+                this.isLoading = false;
+                this.users = users;
+            });
+    }
 
 }
