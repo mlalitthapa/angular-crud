@@ -22,4 +22,18 @@ export class UsersComponent implements OnInit {
             });
     }
 
+    deleteUser(id: number) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            this.usersService.delete(id)
+                .subscribe(
+                    user => {
+                        alert('User deleted.');
+                    },
+                    error => {
+                        this.ngOnInit();
+                    }
+                );
+        }
+    }
+
 }

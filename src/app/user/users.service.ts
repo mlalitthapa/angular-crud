@@ -21,7 +21,7 @@ export class UsersService {
     save(user: User, id: number) {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
-        if(id){
+        if (id) {
             return this._http.put(this._url + '/' + id, user, options)
                 .map(response => response.json());
         }
@@ -32,6 +32,11 @@ export class UsersService {
     getUser(id: number) {
         return this._http.get(this._url + '/' + id)
             .map(user => user.json());
+    }
+
+    delete(id: number) {
+        return this._http.delete(this._url + '/' + id)
+            .map(response => response.json());
     }
 
 }
