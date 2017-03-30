@@ -20,7 +20,9 @@
         <tr *ngFor="let user of users">
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
-            <td><span class="glyphicon glyphicon-edit"></span></td>
+            <td>
+                <a [routerLink]="['/users', user.id]"><span class="glyphicon glyphicon-edit"></span></a>
+            </td>
             <td><span class="glyphicon glyphicon-remove"></span></td>
         </tr>
     </tbody>

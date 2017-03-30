@@ -3,7 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {CustomValidator} from './custom-validator';
 import {UsersService} from './users.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {User} from './user';
 
 @Component({
     templateUrl: 'app/user/add-user.template.html',
@@ -12,12 +13,18 @@ import {Router} from '@angular/router';
 export class AddUserComponent {
 
     registerForm: FormGroup;
+    title: string;
+    user = new User();
+    id: number;
 
     name: any;
     email: any;
     phone: any;
 
-    constructor(private fb: FormBuilder, private _userService: UsersService, private router: Router) {
+    constructor(private fb: FormBuilder,
+                private _userService: UsersService,
+                private router: Router,
+                private routeParams: ActivatedRoute) {
         this.registerForm = this.fb.group({
             name: ['', Validators.required],
             email: ['', CustomValidator.email],
@@ -35,8 +42,30 @@ export class AddUserComponent {
         this.phone = this.registerForm.controls['phone'];
     }
 
-    createUser() {
-        this._userService.create(this.registerForm.value)
+    ngOnInit() {
+        this.id = this.routeParams.snapshot.params['id'];
+
+        this.title = this.id ? 'Edit User' : 'Add User';
+
+        if (!this.id) {
+            return;
+        }
+
+        this._userService.getUser(this.id)
+            .subscribe(
+                user => {
+                    this.user = user;
+                },
+                error => {
+                    if (error.status === 404) {
+                        this.router.navigate(['/users']);
+                    }
+                }
+            );
+    }
+
+    saveUser() {
+        this._userService.save(this.registerForm.value, this.id)
             .subscribe(user => {
                     this.registerForm.markAsPristine();
                     this.router.navigate(['/users']);

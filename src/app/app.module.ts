@@ -17,6 +17,7 @@ const appRoutes: Routes = [
     {path: 'posts', component: PostsComponent},
     {path: 'users', component: UsersComponent},
     {path: 'users/add', component: AddUserComponent, canDeactivate: [UserFormGuard]},
+    {path: 'users/:id', component: AddUserComponent, canDeactivate: [UserFormGuard]},
     {path: '**', redirectTo: '/'}
 ];
 
